@@ -2,7 +2,7 @@
 
 import argparse
 
-parser = argparse.ArgumentParser(description='Fixes IFF/LBM header of image files from Artventure games')
+parser = argparse.ArgumentParser(description='Fixes IFF/ILBM header of image files from Artventure games')
 parser.add_argument('filename')
 parser.add_argument('-g', '--game', default='holiday', help='tells the program which game the image comes from', choices=('holiday', 'loewen'))
 parser.add_argument('-o', '--output', help='name of file to write the fixed image to')
@@ -25,7 +25,7 @@ try:
     bitmap_header_offset = image_file_data.find(bytes('BMHD', 'utf-8'))
 
     if bitmap_header_offset < 0:
-        print('Unable to locate bitmap header (BMHD). File is not an IFF/LBM file?')
+        print('Unable to locate bitmap header (BMHD). File is not an IFF/ILBM file?')
         exit(2)
 
     if args.verbose:
