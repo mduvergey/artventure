@@ -21,6 +21,7 @@ if args.verbose:
 try:
     input_file = open(args.filename, 'rb')
     image_file_data = input_file.read()
+    input_file.close()
 
     bitmap_header_offset = image_file_data.find(bytes('BMHD', 'utf-8'))
 
@@ -78,6 +79,8 @@ try:
         try:
             patched_file = open(args.output, 'xb')
             patched_file.write(writeable_array)
+            patched_file.close()
+
             if args.verbose:
                 print(f'Patched image has been written to {args.output}.')
 
