@@ -3,9 +3,10 @@
 import argparse
 
 parser = argparse.ArgumentParser(description='Fixes header of image files from Artventure Amiga/PC games')
-parser.add_argument('filename')
 parser.add_argument('-g', '--game', help='tells the program which game the image comes from', choices=('holiday', 'loewen', 'jonpc'))
+parser.add_argument('-i', '--input', help='name of image file to fix')
 parser.add_argument('-o', '--output', help='name of file to write the fixed image to')
+parser.add_argument('-lg', '--list-games', help='lists supported games', action='store_true')
 parser.add_argument('-v', '--verbose', help='prints extra information about image', action='store_true')
 
 args = parser.parse_args()
@@ -16,11 +17,21 @@ games = {
     'jonpc': 'Jonathan (PC)'
 }
 
+if args.list_games:
+    print('Supported games:')
+    for key in games:
+        print(f'- {games[key]} ({key})')
+    exit()
+
 if args.verbose:
     print(f'Selected game: {games[args.game]}')
 
+if args.input is None:
+    print(f'Missing input filename. Use -i option.')
+    exit(1)
+
 try:
-    input_file = open(args.filename, 'rb')
+    input_file = open(args.input, 'rb')
     image_file_data = input_file.read()
     input_file.close()
 
@@ -29,7 +40,7 @@ try:
 
         if bitmap_header_offset < 0:
             print('Unable to locate bitmap header (BMHD). File is not an IFF/ILBM file?')
-            exit(2)
+            exit(3)
 
         if args.verbose:
             width = int.from_bytes(image_file_data[bitmap_header_offset + 8:bitmap_header_offset + 10])
@@ -77,7 +88,7 @@ try:
             print('Use -o option to specify an output file.')
     else:
         print('Image file does not require patching.')
-        exit(3)
+        exit(4)
 
     if args.output:
         writeable_array = bytearray(image_file_data)
@@ -108,10 +119,10 @@ try:
 
         except FileExistsError:
             print(f'File {args.output} already exists. Aborting.')
-            exit(4)
+            exit(5)
 
         print('Done.')
 
 except FileNotFoundError:
-    print(f'Could not open file {args.filename}.')
-    exit(1)
+    print(f'Could not open file {args.input}.')
+    exit(2)
