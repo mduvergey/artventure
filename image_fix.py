@@ -79,49 +79,49 @@ try:
 
     # Jonathan (PC)
     elif args.game == 'jonpc':
-        print('Checking first four bytes...')
+        print('Checking PCX header...')
         needs_patching |= image_file_data[0] == 0 and image_file_data[1] == 0 and image_file_data[2] == 0 and image_file_data[3] == 0
 
     if needs_patching:
         print('Image file needs to be patched.')
         if not args.output:
             print('Use -o option to specify an output file.')
+            exit(4)
     else:
         print('Image file does not require patching.')
-        exit(4)
+        exit(5)
 
-    if args.output:
-        writeable_array = bytearray(image_file_data)
+    writeable_array = bytearray(image_file_data)
 
-        # Holiday Maker
-        if args.game == 'holiday':
-            writeable_array[2] = ord('R')
-            writeable_array[10] = ord('B')
+    # Holiday Maker
+    if args.game == 'holiday':
+        writeable_array[2] = ord('R')
+        writeable_array[10] = ord('B')
 
-        # Die Stadt der Loewen
-        elif args.game == 'loewen':
-            writeable_array[bitmap_header_offset + 18] = 1
+    # Die Stadt der Loewen
+    elif args.game == 'loewen':
+        writeable_array[bitmap_header_offset + 18] = 1
 
-        # Jonathan (PC)
-        elif args.game == 'jonpc':
-            writeable_array[0] = 0x0A
-            writeable_array[1] = 5
-            writeable_array[2] = 1
-            writeable_array[3] = 8
+    # Jonathan (PC)
+    elif args.game == 'jonpc':
+        writeable_array[0] = 0x0A
+        writeable_array[1] = 5
+        writeable_array[2] = 1
+        writeable_array[3] = 8
 
-        try:
-            patched_file = open(args.output, 'xb')
-            patched_file.write(writeable_array)
-            patched_file.close()
+    try:
+        patched_file = open(args.output, 'xb')
+        patched_file.write(writeable_array)
+        patched_file.close()
 
-            if args.verbose:
-                print(f'Patched image has been written to {args.output}.')
+        if args.verbose:
+            print(f'Patched image has been written to {args.output}.')
 
-        except FileExistsError:
-            print(f'File {args.output} already exists. Aborting.')
-            exit(5)
+    except FileExistsError:
+        print(f'File {args.output} already exists. Aborting.')
+        exit(6)
 
-        print('Done.')
+    print('Done.')
 
 except FileNotFoundError:
     print(f'Could not open file {args.input}.')
