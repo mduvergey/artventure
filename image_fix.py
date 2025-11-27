@@ -27,7 +27,7 @@ if args.verbose:
     print(f'Selected game: {games[args.game]}')
 
 if args.input is None:
-    print(f'Missing input filename. Use -i option.')
+    print('Missing input filename. Use -i option.')
     exit(1)
 
 try:
@@ -84,7 +84,7 @@ try:
 
     if needs_patching:
         print('Image file needs to be patched.')
-        if not args.output:
+        if args.output is None:
             print('Use -o option to specify an output file.')
             exit(4)
     else:
