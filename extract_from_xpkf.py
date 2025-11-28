@@ -187,7 +187,7 @@ try:
         packed_size = int.from_bytes(image_file_data[xpkf_chunk_offset + 36 + 4:xpkf_chunk_offset + 36 + 6])
         raw_size = int.from_bytes(image_file_data[xpkf_chunk_offset + 36 + 6:xpkf_chunk_offset + 36 + 8])
 
-        packed_chunk_type = int.from_bytes(image_file_data[xpkf_chunk_offset + 36:xpkf_chunk_offset + 36 + 1])
+        packed_chunk_type = image_file_data[xpkf_chunk_offset + 36]
         if packed_chunk_type == 0:
             unpacked_data = image_file_data[xpkf_chunk_offset + 36 + 8:xpkf_chunk_offset + 36 + 8 + packed_size]
         elif packed_chunk_type == 1:
