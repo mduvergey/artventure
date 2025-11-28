@@ -1,4 +1,4 @@
-# artventure
+# Artventure exploration tools
 
 Various tools to explore data files from Artventure games (90s german adventure games for Amiga/PC).
 
@@ -16,7 +16,7 @@ This tool currently supports extracting images from:
 
 ## extract_from_xpkf.py
 
-**extract_from_xpkf.py** is a script for extracting images stored in XPKF/NUKE-compressed files
+**extract_from_xpkf.py** is a script for extracting images stored in XPKF/NUKE-compressed files.
 
 This tool currently supports extracting images from:
 
