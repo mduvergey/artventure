@@ -95,10 +95,9 @@ def unpack_nuke(packed_data, unpacked_size):
                     tmp = read_2_bits_msb()
                     if tmp != 0:
                         count += 5 - tmp
+                        break
                     else:
                         count += 3
-                    if tmp != 0:
-                        break
             for _ in range(count):
                 input_offset -= 1
                 output_data[output_offset] = packed_data[input_offset]
@@ -124,10 +123,9 @@ def unpack_nuke(packed_data, unpacked_size):
                     tmp = read_4_bits_lsb()
                     if tmp != 0:
                         count += 16 - tmp
+                        break
                     else:
                         count += 15
-                    if tmp != 0:
-                        break
             else:
                 count = 3 + 4 - count
 
